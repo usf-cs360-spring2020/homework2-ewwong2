@@ -199,29 +199,29 @@ var highlight = function(d) {
 
   // first every group turns grey
   d3.selectAll(".line")
-    .transition().duration(200)
+    .transition().duration(150)
     .style("stroke", "lightgrey")
     .style("opacity", "0.1");
   d3.selectAll(".legend")
-    .transition().duration(200)
+    .transition().duration(150)
     .style("opacity", "0.2");
   // Second the hovered specie takes its color
   d3.selectAll("." + kebabCase(type))
-    .transition().duration(200)
+    .transition().duration(150)
     .style("stroke", color(type))
     .style("opacity", "0.5");
   d3.selectAll(`.${kebabCase(type)}-legend`)
-    .transition().duration(200)
+    .transition().duration(150)
     .style("opacity", "1");
 }
 
 // Unhighlight
 var doNotHighlight = function(d){
   d3.selectAll(".line")
-    .transition().duration(200).delay(800)
+    .transition().duration(150).delay(800)
     .style("stroke", d => color(d['Type']))
     .style("opacity", "0.2")
   d3.selectAll(".legend")
-    .transition().duration(200).delay(800)
+    .transition().duration(150).delay(800)
     .style("opacity", "1")
 }
