@@ -1,0 +1,108 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "description": "The example used is from https://vega.github.io/vega-lite/examples/parallel_coordinate.html. Though Vega-Lite supports only one scale per axes, one can create a parallel coordinate plot by folding variables, using `joinaggregate` to normalize their values and using ticks and rules to manually create axes.",
+  "data": {
+    "url": "mrc_table2_1.json"
+  },
+  "width": 960,
+  "height": 500,
+  "transform": [
+    {"window": [{"op": "count", "as": "index"}]},
+    {"fold": ["Parent Rank", "Kid Rank", "Mobility Rate", "Tier"]},
+    {
+      "joinaggregate": [
+        {"op": "min", "field": "value", "as": "min"},
+        {"op": "max", "field": "value", "as": "max"}
+      ],
+      "groupby": ["key"]
+    },
+    {
+      "calculate": "(datum.value - datum.min) / (datum.max - datum.min)",
+      "as": "norm_val"
+    },
+    {
+      "calculate": "(datum.min + datum.max) / 2",
+      "as": "mid"
+    }
+  ],
+  "layer": [{
+    "mark": {"type": "rule", "color": "#ccc"},
+    "encoding": {
+      "detail": {"aggregate": "count", "type": "quantitative"},
+      "x": {"type": "nominal", "field": "key"}
+    }
+  }, {
+    "mark": "line",
+    "encoding": {
+      "color": {"type": "nominal", "field": "Type"},
+      "detail": {"type": "nominal", "field": "index"},
+      "opacity": {"value": 0.2},
+      "x": {"type": "nominal", "field": "key"},
+      "y": {"type": "quantitative", "field": "norm_val", "axis": null},
+      "tooltip": [{
+        "type": "quantitative",
+        "field": "Parent Rank"
+      }, {
+        "type": "quantitative",
+        "field": "Kid Rank"
+      }, {
+        "type": "quantitative",
+        "field": "Mobility Rate"
+      }, {
+        "type": "quantitative",
+        "field": "Tier"
+      }, {
+        "type": "nominal",
+        "field": "Type"
+      }]
+    }
+  },{
+    "encoding": {
+      "x": {"type": "nominal", "field": "key"},
+      "y": {"value": 0}
+    },
+    "layer": [{
+      "mark": {"type": "text", "style": "label"},
+      "encoding": {
+        "text": {"aggregate": "max", "field": "max", "type": "quantitative", "format": ".2f"}
+      }
+    }, {
+      "mark": {"type": "tick", "style": "tick", "size": 8, "color": "#ccc"}
+    }]
+  },{
+
+    "encoding": {
+      "x": {"type": "nominal", "field": "key"},
+      "y": {"value": 250}
+    },
+    "layer": [{
+      "mark": {"type": "text", "style": "label"},
+      "encoding": {
+        "text": {"aggregate": "min", "field": "mid", "type": "quantitative", "format": ".2f"}
+      }
+    }, {
+      "mark": {"type": "tick", "style": "tick", "size": 8, "color": "#ccc"}
+    }]
+  },{
+    "encoding": {
+      "x": {"type": "nominal", "field": "key"},
+      "y": {"value": 500}
+    },
+    "layer": [{
+      "mark": {"type": "text", "style": "label"},
+      "encoding": {
+        "text": {"aggregate": "min", "field": "min", "type": "quantitative", "format": ".2f"}
+      }
+    }, {
+      "mark": {"type": "tick", "style": "tick", "size": 8, "color": "#ccc"}
+    }]
+  }],
+  "config": {
+    "axisX": {"domain": false, "labelAngle": 0, "tickColor": "#ccc", "title": null},
+    "view": {"stroke": null},
+    "style": {
+      "label": {"baseline": "middle", "align": "right", "dx": -5},
+      "tick": {"orient": "horizontal"}
+    }
+  }
+}

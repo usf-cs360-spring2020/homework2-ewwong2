@@ -1,0 +1,29 @@
+.axis {
+  opacity: 0.7;
+}
+
+.axis:hover {
+  opacity: 1;
+}
+
+#sidebar {
+  position: sticky;
+  top: 20px;
+}
+
+#sidebar a {
+  margin: 2px;
+  border-radius: 20px;
+}
+
+#sidebar .is-active {
+  background-color: #3283b3;
+}
+
+.pt {
+  padding-top: 20px;
+}
+
+.is-active {
+  transition: all 200ms ease-out;
+}
