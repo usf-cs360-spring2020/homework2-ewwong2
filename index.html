@@ -19,7 +19,7 @@
 
   <section class="section">
     <div class="container columns is-fluid">
-      <div class="column is-narrow-mobile section is-hidden-mobile is-2">
+      <div class="column is-narrow-touch section is-hidden-touch is-2">
         <aside class="menu" id="sidebar">
           <p class="menu-label">
             <i class="material-icons"> home </i>
@@ -33,6 +33,7 @@
           </p>
           <ul class="menu-list">
             <li><a href="#data" name="data" id="link-data">Data</a></li>
+            <li><a href="#wrangle" name="wrangle" id="link-wrangle">Wrangling</a></li>
           </ul>
           <p class="menu-label">
             <i class="material-icons"> show_chart </i>
@@ -40,6 +41,7 @@
           <ul class="menu-list">
             <li><a href="#proto" name="proto" id="link-proto">Prototype</a></li>
             <li><a href="#d3" name="d3" id="link-d3">Implementation</a></li>
+            <li><a href="#discuss" name="discuss" id="link-discuss">Discussion</a></li>
           </ul>
           <p class="menu-label">
             <i class="material-icons"> info </i>
@@ -53,7 +55,7 @@
         </aside>
       </div>
       <!-- Begin page content -->
-      <div class="content column is-10 has-text-centered">
+      <div class="content column is-10 is-fullwidth-mobile has-text-centered">
         <div id="top">
           <h1 class="title">
             Income Distributions by College Visualization
@@ -61,60 +63,194 @@
         </div>
 
         <div id="intro" class="pt">
-          <p>This would be an excellent place to describe what this page is for, what to find in different sections, describe any motivation or theme behind your visualizations, and so on.</p>
+          <p>
+            The data used in these visualizations come from
+            <a href="https://opportunityinsights.org/paper/mobilityreportcards/">Opportunity Insights</a>.
+            From the <a href="https://opportunityinsights.org/paper/mobilityreportcards/">website</a>,
+            this dataset is used to
+            <span class="has-background-light">
+              "... characterize  intergenerational  income  mobility  at  each
+              college  in  the  United  States  using data  for  over  30
+              million  college  students  from  1999-2013."</span>
+            In specific, this dataset aims to gather data on parent and children
+            income distribution by college.
+          </p>
 
-          <p>You should not use this template unless you intend to customize it. Make it your own. Keep in mind this simple template is over 300 lines! You can see other examples of websites using Bulma at their showcase: <a href="https://bulma.io/expo/">bulma.io/expo/</a>.</p>
+          <p>
+            This page uses parallel coordinates to illustrate the patterns in
+            regard to the income rank of the child and parent. Additional axes
+            shown are mobility rate (joint probability of parents in bottom
+            quintile and child in top quintile of the income distribution), and
+            the college tier. This is colored by college type. For more
+            specifics of the columns used, look at the <a href="#data">data</a>
+            section.
+          </p>
         </div>
-
-        <div id="data" class="pt">
+        <hr/>
+        <div id="data">
           <h2>Data</h2>
 
-          <p>Include some detailed information about the dataset here. You should <a href="#">add a link</a> to the original dataset. You might also want to quote the license:</p>
+          <p>
+            The dataset information from the
+            <a href="https://opportunityinsights.org/data/">website</a>
+            is listed below:
+          </p>
 
           <blockquote>
             <p>
-              "This data is made available under the Public Domain Dedication and License v1.0 whose full text can be found at: <a href="http://www.opendatacommons.org/licenses/pddl/1.0/">www.opendatacommons.org/licenses/pddl/1.0/</a>"
+              "Publicly available data we've produced and replication code"
             </p>
-            <cite>Put a citation here, possibly link to the dataset license information directly.</cite>
+            <p>
+              "As part of our research studies, we put out publicly available datasets that can be used by other researchers and practitioners to support their own work. These datasets allow you to analyze social mobility and a variety of other outcomes from life expectancy to patent rates by neighborhood, college, parental income level, and racial background. You can search for datasets by geographic level (e.g., Census tracts), by topic (e.g., education), or by the title of the paper. Need technical assistance with these data? Contact us at
+              <a href="mailto:info@opportunityinsights.org">info@opportunityinsights.org</a>"
+            </p>
+            <cite>
+              Opportunity Insights. 2017. Mobility Report Cards: The Role of
+              Colleges in Intergenerational Mobility [CSV File]. Retrieved from
+              <a href="https://opportunityinsights.org/paper/mobilityreportcards/">https://opportunityinsights.org/paper/mobilityreportcards/</a>
+              on Feb 24, 2020.
+            </cite>
           </blockquote>
 
-          <p>In addition to including a link to the source and license, you should describe the data. You might want a list of some sort to enumerate the different types of columns:</p>
+          <h3>Relevant Fields</h3>
+          <p>
+            The headers in the data are described <a href="https://opportunityinsights.org/wp-content/uploads/2018/04/Codebook-MRC-Table-2.pdf">here</a>.
+            Below are the fields that are highlighted in the visualizations:
+          </p>
 
-          <ol>
-            <li><strong>Column Name:</strong> Give a description of the column, including its type and possible range of values.</li>
+          <table class="table is-hoverable is-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Field</th>
+                <th>Renamed to</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>1</th>
+                <td>par_rank</td>
+                <td>Parent Rank</td>
+                <td>Mean parental income rank</td>
+              </tr>
+              <tr>
+                <th>2</th>
+                <td>k_rank</td>
+                <td>Kid Rank</td>
+                <td>Mean kid earnings rank</td>
+              </tr>
+              <tr>
+                <th>3</th>
+                <td>mr_kq5_pq1</td>
+                <td>Mobility Rate</td>
+                <td>Mobility rate (joint probability of parents in bottom quintile and child in top quintile of the income distribution)</td>
+              </tr>
+              <tr>
+                <th>4</th>
+                <td>tier</td>
+                <td>Tier</td>
+                <td>
+                  Selectivity and type combination:<br/>
+                  1 = Ivy Plus<br/>
+                  2 = Other elite schools (public and private)<br/>
+                  3 = Highly selective public<br/>
+                  4 = Highly selective private<br/>
+                  5 = Selective public<br/>
+                  6 = Selective private<br/>
+                  7 = Nonselective 4-year public<br/>
+                  8 = Nonselective 4-year private not-for-profit<br/>
+                  9 = Two-year (public and private not-for-profit)<br/>
+                  10 = Four-year for-profit<br/>
+                  11 = Two-year for-profit<br/>
+                  12 = Less than two year schools of any type<br/>
+                  13 = Attending college with insufficient data<br/>
+                  14 = Not in college between the ages of 19-22
+                </td>
+              </tr>
+              <tr>
+                <th>5</th>
+                <td>type</td>
+                <td>Type</td>
+                <td>
+                  Type:<br/>
+                  1 = public<br/>
+                  2 = private non-profit<br/>
+                  3 = for-profit
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-            <li><strong>Column Name:</strong> Give a description of the column, including its type and possible range of values.</li>
-
-            <li><strong>Column Name:</strong> Give a description of the column, including its type and possible range of values.</li>
-
-            <li><strong>Column Name:</strong> Give a description of the column, including its type and possible range of values.</li>
-          </ol>
-
-          <p>This will of course differ depending on the assignment and data.</p>
-
-          <h3 id="wrangling">Wrangling</h3>
-
-          <p>Perhaps you had to do some data wrangling to the original dataset to prepare it for visualization. This would be a great place to discuss some of that wrangling.
-
-          <p>You can alternatively embed a Gist if you want. There is an "embed" button on <a href="https://gist.github.com/octocat/6cad326836d38bd3a7ae">the Gist page</a> and results in something like this:</p>
-
-          <script src="https://gist.github.com/octocat/6cad326836d38bd3a7ae.js"></script>
-
-          <h2 id="visualizations">Visualizations</h2>
-
-          <p>Ideally not everything would be on a single page like this example. Instead, you might want to put each section in its own webpage. You would need to carefully replicate the page template (with the header, navbar, and footer) and make the necessary updates. For example, you want the "About" navbar item to be considered active on an "About" web page.</p>
-
-          <p>For now this is just a demo. The buttons below do not go anywhere, but can be easily changed to link to different visualization pages.</p>
+          <p>
+            Note that the relevant columns are renamed. The main motivation for
+            renaming the fields is simply to provide a better way to understand
+            and read the data. It is easier for me personally to read "Mobility
+            Rate" vs "mr_kq5_pq1".
+          </p>
         </div>
+        <hr/>
+        <div id="wrangle">
+          <h2>Wrangling</h2>
 
-        <div id="proto" class="pt">
-          <!-- https://github.com/vega/vega-embed#basic-example -->
-          <p>It is possible to embed some visualizations directly here too. Here is <a href="https://github.com/vega/vega-embed#basic-example">an example</a> using Vega-Lite:</p>
+          <p>
+            Previously, I used Tableau exported data and any additional
+            wrangling was done in JavaScript. This time all wrangling was done
+            in <a href="https://www.python.org/">Python</a> with the help of
+            <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html">Pandas</a>.
+          </p>
 
-          <div id="vis"></div>
+          <p>
+            A big part of the data wrangling was renaming the columns. The code
+            block shows the renaming as well as properly naming the college types.
+          </p>
+          <pre style="text-align: left; width: 80%; margin: auto; border-radius: 5px;"><code>df = df.rename(columns = {"par_rank": "Parent Rank",
+       "k_rank":"Kid Rank",
+       "mr_kq5_pq1": "Mobility Rate",
+       "tier": "Tier",
+       "type": "Type"})
+
+df.loc[df['Type'] == 1.0, 'Type'] = 'Public'
+df.loc[df['Type'] == 2.0, 'Type'] = 'Private Non profit'
+df.loc[df['Type'] == 3.0, 'Type'] = 'For Profit'
+df.loc[pd.isna(df['Type']), 'Type'] = 'Unknown'
+df = df[['Parent Rank','Kid Rank', 'Mobility Rate', 'Tier', 'Type']]
+df</code></pre>
+          <p>
+            This was then exported to CSV for D3 and JSON for Vega-Lite. The CSV:
+          </p>
+          <pre style="text-align: left; width: 80%; margin: auto; border-radius: 5px;"><code>new_df.to_csv('mrc_table2_1.csv', index=False)</code></pre>
+          <p>The JSON:</p>
+          <pre style="text-align: left; width: 80%; margin: auto; border-radius: 5px;"><code>new_df.to_json('mrc_table2_1.json', orient='records')</code></pre>
+
+          <p>No additional wrangling was done.</p>
         </div>
-
-        <div id="d3" class="pt">
+        <hr/>
+        <div id="proto">
+          <h2>Prototype</h2>
+          <a href="https://vega.github.io/vega-lite/" class="button is-small is-rounded" style="padding: 1em;">
+            Created with <img src="https://github.com/vega/logos/raw/master/assets/VL_Color@64.png?raw=true" style="height: 18px;">
+          </a>
+          <br/>
+          <h3>Income Rank by College Type</h3>
+          <div id="vis" class="pt"></div>
+          <p>
+            <b>Caption:</b> This parallel coordinates plot has 4 distinct axes.
+            In specific, the axes are: "Kid Rank", "Parent Rank",
+            "Mobility Rate", and "Tier". The ranks refer to means earnings rank.
+            The tier is described in <a href="#data">data</a>. Each line
+            represents a data point. This is created in Vega-Lite. Hovering over
+            data points on the axis will show a tooltip.
+          </p>
+        </div>
+        <hr/>
+        <div id="d3">
+          <h2>Implementation</h2>
+          <a href="https://d3js.org/" class="button is-small is-rounded" style="padding: 1em;">
+            Created with <img src="https://raw.githubusercontent.com/d3/d3-logo/master/d3.png" style="height: 20px; padding-left: 5px;" />
+          </a>
+          <br/>
+          <h3>Income Rank by College Type</h3>
           <svg id="parallel" width="960" height="500">
             <!-- actual visualization on top -->
             <g id="plot">
@@ -124,39 +260,69 @@
             <g id="legend">
             </g>
           </svg>
-
-          <div id="my_dataviz"></div>
+          <p>
+            <b>Caption:</b> This parallel coordinates plot has 4 distinct axes.
+            In specific, the axes are: "Kid Rank", "Parent Rank",
+            "Mobility Rate", and "Tier". The ranks refer to means earnings rank.
+            The tier is described in <a href="#data">data</a>. Each line
+            represents a data point. This is created with D3. Hover over a line
+            to highlight all data points with that college type.
+          </p>
+          <strong>
+            Note that the axes are in a different ordering in the implenatation
+            vs the prototype.
+          </strong>
         </div>
-
-        <div id="d3-info" class="pt">
-          <h4>Instructions</h4>
-
-          <p>You will likely need to include instructions on how to interpet and use the visualization. In the case above, if you click the three dots <i class="fas fa-ellipsis-h has-text-grey-light	"></i> above it will open a menu where you can either save the visualization to a SVG or PNG, or alternatively open it up in the online Vega Editor.</p>
-
-          <h4>Discussion</h4>
-
-          <p>You may also need other sections, like a discussion section, per-visualization section on data wrangling, and others. Because of the extra content and code visualizations take, it might be worthwhile to break up your pages into one home page and then one page per visualization.</p>
+        <hr/>
+        <div id="discuss">
+          <h2>Discussion</h2>
+          <p>
+            The details of how the data is encoded is explained in the caption.
+            The details are repeated below:
+          </p>
+          <blockquote>
+            This parallel coordinates plot has 4 distinct axes.
+            In specific, the axes are: "Kid Rank", "Parent Rank",
+            "Mobility Rate", and "Tier". The ranks refer to means earnings rank.
+            The tier is described in <a href="#data">data</a>. Each line
+            represents a data point.
+          </blockquote>
+          <p>
+            Data Wrangling was done in similar ways for both the prototype and
+            the implementation. Read <a href="#wrangling">wrangling</a> to get
+            more information.
+          </p>
+          <p>
+            From this parallel coordinates plot, we can clearly see banding
+            between the different college types. This suggests that private non
+            profit colleges are attended by wealthier children with wealthier
+            parents. These children tend to attend better schools and have a
+            higher mobility rate. While this is clear from the chart, it also
+            seems like public school students also have a comparable mobility
+            rate.
+          </p>
         </div>
-
-        <div id="credits" class="pt">
-          <span class="heading">Acknowledgements</span>
+        <hr/>
+        <div id="credits">
+          <h2>Sources</h2>
 
           <p>
-            <a href="#">Link to insiration</a><br/>
-            <a href="#">Link to StackOverflow snippet</a>
-          </p>
-
-          <p class="is-6">
-            <em>Thanks to Person Name for their suggestion to do something with the visualization.</em>
+            <a href="https://vega.github.io/vega-lite/examples/parallel_coordinate.html">Vega Lite Parallel Coordinate Plot</a><br/>
+            <a href="https://www.d3-graph-gallery.com/graph/parallel_basic.html">D3 Parallel Coordinates</a><br/>
+            <a href="https://www.d3-graph-gallery.com/graph/parallel_custom.html">D3 Custom Parallel Coordinates (Hover animation)</a><br/>
+            <a href="https://blockbuilder.org/sjengle/8c2b8064e0e6971a89f0">Structure and Organization</a><br/>
+            <a href="https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-123.php">Kebab Case (used for Scrollspy)</a><br/>
+            <a href="https://scotch.io/bar-talk/build-a-scroll-spy-navbar-solution-to-code-challenge-9">Scrollspy</a><br/>
+            <a href="https://www.d3-graph-gallery.com/graph/custom_legend.html">Custom Legend</a>
           </p>
         </div>
-
-        <div id="grade" class="pt">
+        <hr/>
+        <div id="grade">
           <h2 id="grade">Grade</h2>
 
           <!-- TODO: Change or remove table -->
           <!-- https://bulma.io/documentation/elements/table/ -->
-          <table class="table is-hoverable is-bordered grades">
+          <table class="table is-hoverable grades">
             <thead>
               <tr>
                 <th>Letter</th>
@@ -167,60 +333,44 @@
 
             <tbody>
               <tr>
-                <td>D</td>
-                <td><i class="has-text-success fas fa-check-circle"></i></td>
-                <td>Discussion of how this grade level was satisfied. Exactly how this section should look will depend on the assignment in question. There is no requirement for formatting in this way. This is just an example of what a table element might look like for this informaiton.</td>
-              </tr>
-
-              <tr>
-                <td>C</td>
-                <td><i class="has-text-success fas fa-check-circle"></i></td>
-                <td>Discussion of how this grade level was satisfied.</td>
-              </tr>
-
-              <tr>
-                <td>B</td>
-                <td><i class="has-text-warning far fa-check-circle"></i></td>
-                <td>Discussion of how this grade level was satisfied.</td>
-              </tr>
-
-              <tr>
                 <td>A</td>
-                <td><i class="has-text-danger fas fa-times-circle"></i></td>
-                <td>Discussion of how this grade level was not satisfied.</td>
+                <td><i class="has-text-success fas fa-check-circle"></i></td>
+                <td>
+                  Parallel coordinates plot <a href="#proto">Prototype</a> and
+                  <a href="#Implementation">Implementation</a>.
+                </td>
               </tr>
             </tbody>
 
           </table>
         </div>
-
-        <div id="about" class="pt">
+        <hr/>
+        <div id="about">
           <h2>About</h2>
 
           <!-- Profile box -->
           <!-- https://bulma.io/documentation/layout/media-object/ -->
           <article class="media">
-          <figure class="media-left">
-            <p class="image is-96x96"><img class="is-rounded" src="https://raw.githubusercontent.com/usf-cs360-spring2020/homework1-ewwong2/gh-pages/profile.JPG"></p>
-          </figure>
+            <figure class="media-left">
+              <p class="image is-96x96"><img class="is-rounded" src="https://raw.githubusercontent.com/usf-cs360-spring2020/homework1-ewwong2/gh-pages/profile.JPG"></p>
+            </figure>
 
-          <div class="media-content">
-            <div>
-              <p>
-                <strong>Edmund Wong</strong><br/>
-                CS Major, <a href="https://www.usfca.edu/">University of San Francisco</a><br/>
-                <em>Expected Graduation: December 2020</em><br/>
-                <i class="fas fa-envelope"></i> <a href="mailto:ewwong2@dons.usfca.edu">ewwong2@dons.usfca.edu</a>
-              </p>
-              <p>I am a 4+1 Computer Science student at University of San Francisco.
-                I have completed my Bachelors in Computer Science on December 2019
-                and will complete my Masters degree on December 2020. I am currently
-                learning about Machine Learning, Data Visualizations, and streaming data.
-                I am also always very enthusiastic to learn more about new tech products.</p>
+            <div class="media-content">
+              <div>
+                <p>
+                  <strong>Edmund Wong</strong><br/>
+                  CS Major, <a href="https://www.usfca.edu/">University of San Francisco</a><br/>
+                  <em>Expected Graduation: December 2020</em><br/>
+                  <i class="fas fa-envelope"></i> <a href="mailto:ewwong2@dons.usfca.edu">ewwong2@dons.usfca.edu</a>
+                </p>
+                <p>I am a 4+1 Computer Science student at University of San Francisco.
+                  I have completed my Bachelors in Computer Science on December 2019
+                  and will complete my Masters degree on December 2020. I am currently
+                  learning about Machine Learning, Data Visualizations, and streaming data.
+                  I am also always very enthusiastic to learn more about new tech products.</p>
+              </div>
             </div>
-          </div>
-        </article>
-        <!-- End profile box -->
+          </article>
           <!-- End profile box -->
         </div>
       </div>
@@ -264,7 +414,7 @@
           <img src="https://raw.githubusercontent.com/d3/d3-logo/master/d3.png" style="height: 20px; padding-left: 5px;" />
         </a>
       </p>
-      <p>✏️ Created by <a href="#about">Edmund Wong</a> for <a href="index.html">Data Visualization Course</a></p>
+      <p>✏️ Created by <a href="#about">Edmund Wong</a> for <a href="https://usf-cs360-spring2020.github.io/">Data Visualization Course</a></p>
     </div>
   </footer>
   <!-- End page footer -->
@@ -294,7 +444,7 @@
     }
 
     // Scrollspy by: https://scotch.io/bar-talk/build-a-scroll-spy-navbar-solution-to-code-challenge-9
-    const parts = ['top', 'intro', 'data', 'proto', 'd3', 'credits', 'grade', 'about', 'end'];
+    const parts = ['top', 'intro', 'data', 'wrangle', 'proto', 'd3', 'discuss', 'credits', 'grade', 'about', 'end'];
     const handleView = item => {
       const linkEl = document.querySelector(`#link-${item}`);
 

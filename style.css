@@ -24,6 +24,18 @@
   padding-top: 20px;
 }
 
+.menu-list a {
+  overflow: hidden;
+  white-space: nowrap; /* Don't forget this one */
+  text-overflow: ellipsis;
+}
+
 .is-active {
   transition: all 200ms ease-out;
+}
+
+@media screen and (max-width: 1023px), print {
+  div.is-fullwidth-mobile {
+    width: 100% !important;
+  }
 }
