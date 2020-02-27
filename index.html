@@ -305,7 +305,7 @@ df</code></pre>
             In specific, the axes are: "Kid Rank", "Parent Rank",
             "Mobility Rate", and "Tier". The ranks refer to means earnings rank.
             The tier is described in <a href="#data">data</a>. Each line
-            represents a data point.
+            represents a column in the data.
           </blockquote>
           <p>
             Data Wrangling was done in similar ways for both the prototype and
@@ -320,6 +320,15 @@ df</code></pre>
             higher mobility rate. While this is clear from the chart, it also
             seems like public school students also have a comparable mobility
             rate.
+          </p>
+          <p>
+            One additional consideration is raising the lines that are
+            highlighted to the foreground. While this should be feasible with
+            the raise command, it was far too slow and laggy to be useful. This
+            is likely due to there being too many data points in addition to
+            the existing transition. Nevertheless, thank you to
+            <i>Professor Sophie Engle</i> for the suggestion (she also warned me
+            that it may lag the amount of data points). 
           </p>
         </div>
         <hr/>
