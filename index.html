@@ -72,8 +72,8 @@
               "... characterize  intergenerational  income  mobility  at  each
               college  in  the  United  States  using data  for  over  30
               million  college  students  from  1999-2013."</span>
-            In specific, this dataset aims to gather data on parent and children
-            income distribution by college.
+            One part of the dataset is the income distribution of parents and
+            children.
           </p>
 
           <p>
@@ -90,7 +90,11 @@
         <div id="data">
           <h2>Data</h2>
 
-          <p>
+          <span class="tag is-light is-rounded is-large"><b>2,201</b>&nbsp;Rows</span>
+          <span class="tag is-light is-rounded is-large"><b>36</b>&nbsp;Columns</span>
+          <span class="tag is-light is-rounded is-large">Last Retrieval on&nbsp;<b>2/24/2020</b></span>
+
+          <p class="pt">
             The dataset information from the
             <a href="https://opportunityinsights.org/data/">website</a>
             is listed below:
@@ -217,10 +221,12 @@ df.loc[pd.isna(df['Type']), 'Type'] = 'Unknown'
 df = df[['Parent Rank','Kid Rank', 'Mobility Rate', 'Tier', 'Type']]
 df</code></pre>
           <p>
-            This was then exported to CSV for D3 and JSON for Vega-Lite. The CSV:
+            This was then exported to CSV for D3 and JSON for Vega-Lite. The
+            <a href="https://github.com/usf-cs360-spring2020/homework2-ewwong2/blob/gh-pages/mrc_table2_1.csv">CSV</a>:
           </p>
           <pre style="text-align: left; width: 80%; margin: auto; border-radius: 5px;"><code>new_df.to_csv('mrc_table2_1.csv', index=False)</code></pre>
-          <p>The JSON:</p>
+          <p>The
+            <a href="https://github.com/usf-cs360-spring2020/homework2-ewwong2/blob/gh-pages/mrc_table2_1.json">JSON:</a></p>
           <pre style="text-align: left; width: 80%; margin: auto; border-radius: 5px;"><code>new_df.to_json('mrc_table2_1.json', orient='records')</code></pre>
 
           <p>No additional wrangling was done.</p>
@@ -241,6 +247,8 @@ df</code></pre>
             The tier is described in <a href="#data">data</a>. Each line
             represents a data point. This is created in Vega-Lite. Hovering over
             data points on the axis will show a tooltip.
+            <a href="https://vega.github.io/vega-lite/examples/parallel_coordinate.html">Vega Lite Parallel Coordinate Plot</a>
+            was used as an example on how to create parallel coordinates in Vega lite.
           </p>
         </div>
         <hr/>
@@ -267,6 +275,10 @@ df</code></pre>
             The tier is described in <a href="#data">data</a>. Each line
             represents a data point. This is created with D3. Hover over a line
             to highlight all data points with that college type.
+            <a href="https://www.d3-graph-gallery.com/graph/parallel_basic.html">D3 Parallel Coordinates</a> and
+            <a href="https://www.d3-graph-gallery.com/graph/parallel_custom.html">D3 Custom Parallel Coordinates (Hover animation)</a>
+            was used as examples on how to do interactivity and parallel coordinates
+            in D3.
           </p>
           <strong>
             Note that the axes are in a different ordering in the implenatation
@@ -320,8 +332,6 @@ df</code></pre>
         <div id="grade">
           <h2 id="grade">Grade</h2>
 
-          <!-- TODO: Change or remove table -->
-          <!-- https://bulma.io/documentation/elements/table/ -->
           <table class="table is-hoverable grades">
             <thead>
               <tr>

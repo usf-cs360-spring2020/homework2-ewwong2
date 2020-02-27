@@ -177,6 +177,9 @@ function drawLegend(data) {
       .attr("width", lConfig.marker.width)
       .attr("height", lConfig.marker.height)
       .style("fill", d => color(d))
+      .style("alignment-baseline", "middle")
+      .on("mouseover", d => {highlight({Type: d})})
+      .on("mouseleave", d => {doNotHighlight({Type: d})});
 
   // Add one dot in the legend for each name.
   svg.select("g#legend").selectAll("mylabels")
@@ -190,8 +193,12 @@ function drawLegend(data) {
       .text(d => d)
       .attr("text-anchor", "left")
       .style("alignment-baseline", "middle")
+      .on("mouseover", d => {highlight({Type: d})})
+      .on("mouseleave", d => {doNotHighlight({Type: d})});
 }
 
+
+// https://www.d3-graph-gallery.com/graph/parallel_custom.html
 var highlight = function(d) {
 
   let type = d['Type'];
