@@ -205,6 +205,13 @@
           </p>
 
           <p>
+            First, the data can be read in with pandas.
+          </p>
+
+          <pre style="text-align: left; width: 80%; margin: auto; border-radius: 5px;"><code>import pandas as pd
+          df = pd.read_csv('mrc_table2.csv')</code></pre>
+
+          <p>
             A big part of the data wrangling was renaming the columns. The code
             block shows the renaming as well as properly naming the college types.
           </p>
@@ -224,10 +231,10 @@ df</code></pre>
             This was then exported to CSV for D3 and JSON for Vega-Lite. The
             <a href="https://github.com/usf-cs360-spring2020/homework2-ewwong2/blob/gh-pages/mrc_table2_1.csv">CSV</a>:
           </p>
-          <pre style="text-align: left; width: 80%; margin: auto; border-radius: 5px;"><code>new_df.to_csv('mrc_table2_1.csv', index=False)</code></pre>
+          <pre style="text-align: left; width: 80%; margin: auto; border-radius: 5px;"><code>df.to_csv('mrc_table2_1.csv', index=False)</code></pre>
           <p>The
             <a href="https://github.com/usf-cs360-spring2020/homework2-ewwong2/blob/gh-pages/mrc_table2_1.json">JSON:</a></p>
-          <pre style="text-align: left; width: 80%; margin: auto; border-radius: 5px;"><code>new_df.to_json('mrc_table2_1.json', orient='records')</code></pre>
+          <pre style="text-align: left; width: 80%; margin: auto; border-radius: 5px;"><code>df.to_json('mrc_table2_1.json', orient='records')</code></pre>
 
           <p>No additional wrangling was done.</p>
         </div>
